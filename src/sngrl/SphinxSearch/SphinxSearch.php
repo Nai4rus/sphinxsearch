@@ -23,7 +23,8 @@ class SphinxSearch
         $this->_connection->setMatchMode(\Sphinx\SphinxClient::SPH_MATCH_ANY);
         $this->_connection->setSortMode(\Sphinx\SphinxClient::SPH_SORT_RELEVANCE);
         if (extension_loaded('mysqli') && \Config::get('sphinxsearch.mysql_server')) {
-            $this->_raw_mysql_connection = mysqli_connect(\Config::get('sphinxsearch.mysql_server.host'), '', '', '', \Config::get('sphinxsearch.mysql_server.port'));
+            $config = \Config::get('sphinxsearch.mysql_server');
+            $this->_raw_mysql_connection = mysqli_connect($config['host'], $config['username'], $config['password'], $config['database'], $config['port']);
         }
         $this->_config = \Config::get('sphinxsearch.indexes');
         reset($this->_config);
